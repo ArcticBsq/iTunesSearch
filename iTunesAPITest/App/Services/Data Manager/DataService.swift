@@ -16,14 +16,14 @@ enum UserDefaultsKeys {
 protocol DataServiceProtocol {
     func saveHistoryDefaults(array: [String])
     func getHistoryDefaults() -> [String]?
-    
+
     func saveHistoryStatus(url: String?, key: String)
     func getHistoryStatus(key: String) -> String?
 }
 
 final class DataService: DataServiceProtocol {
     private let defaults = UserDefaults.standard
-    
+
 // Save history tabs as array of String to UserDefaults
     func saveHistoryDefaults(array: [String]) {
         defaults.set(array, forKey: "History")
@@ -42,5 +42,5 @@ final class DataService: DataServiceProtocol {
         let result = defaults.string(forKey: key)
         return result
     }
-    
+
 }

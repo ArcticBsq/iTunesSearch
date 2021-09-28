@@ -21,15 +21,14 @@ protocol SearchViewPresenterProtocol: AnyObject {
     var history: [String]? { get set }
     func getUrlFromDefaults() -> String?
     func saveUrlNilDefaults()
-    
-    
+
 }
 
 final class SearchPresenter: SearchViewPresenterProtocol {
     var searchTerm: String?
-    
+
     var albums: MusicEntities?
-   //MARK: History data work
+// MARK: History data work
     var history: [String]? {
         get {
             dataService.getHistoryDefaults()
@@ -37,26 +36,26 @@ final class SearchPresenter: SearchViewPresenterProtocol {
             dataService.saveHistoryDefaults(array: newValue ?? [String]())
         }
     }
-    
+
     func saveHistory(url: String) {
         history?.append(url)
     }
-    
+
     weak var view: SearchViewProtocol?
-    let networkService: NetworkServiceProtocol!
-    let dataService: DataServiceProtocol!
-    
+    let networkService: NetworkServiceProtocol
+    let dataService: DataServiceProtocol
+
     required init(view: SearchViewProtocol, networkService: NetworkServiceProtocol, dataService: DataServiceProtocol) {
         self.view = view
         self.networkService = networkService
         self.dataService = dataService
     }
- 
-//MARK: Network
+
+// MARK: Network
     func getAlbums(url: String, searchTerm: String?) {
         guard let term = searchTerm else { return }
-        
-        networkService.fetchData(url: url,searchTerm: term) { [weak self] result, error, historyUrl in
+
+        networkService.fetchData(url: url, searchTerm: term) { [weak self] result, error, historyUrl in
             guard let self = self else { return }
             self.saveHistory(url: historyUrl)
             DispatchQueue.main.async {
@@ -73,12 +72,12 @@ final class SearchPresenter: SearchViewPresenterProtocol {
         }
         self.searchTerm = searchTerm
     }
-//MARK: Datawork
+// MARK: Datawork
     func getUrlFromDefaults() -> String? {
         let result = dataService.getHistoryStatus(key: UserDefaultsKeys.albumsHistory)
         return result
     }
-    
+
     func saveUrlNilDefaults() {
         dataService.saveHistoryStatus(url: nil, key: UserDefaultsKeys.albumsHistory)
     }

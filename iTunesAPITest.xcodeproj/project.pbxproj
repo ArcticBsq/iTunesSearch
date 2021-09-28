@@ -306,6 +306,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F6DE9E6D26FF7F9F00969CC3 /* Build configuration list for PBXNativeTarget "iTunesAPITest" */;
 			buildPhases = (
+				F620090D27031A32003DC061 /* Run SwiftLint */,
 				F6DE9E5526FF7F9E00969CC3 /* Sources */,
 				F6DE9E5626FF7F9E00969CC3 /* Frameworks */,
 				F6DE9E5726FF7F9E00969CC3 /* Resources */,
@@ -368,6 +369,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		F620090D27031A32003DC061 /* Run SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Run SwiftLint";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		F6DE9E5526FF7F9E00969CC3 /* Sources */ = {

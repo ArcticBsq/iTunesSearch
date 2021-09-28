@@ -22,7 +22,7 @@ final class ModuleBuilder: Builder {
         view.presenter = presenter
         return view
     }
-    
+
     static func createHistoryModule() -> UIViewController {
         let view = HistoryViewController()
         let dataService = DataService()
@@ -30,14 +30,14 @@ final class ModuleBuilder: Builder {
         view.presenter = presenter
         return view
     }
-    
+
     static func createSongsModule(url: String) -> UIViewController {
         let view = SongsViewController()
         let networkService = NetworkService()
         let dataService = DataService()
-        let presenter = SongsPresenter(view: view, networkService: networkService, url: url, dataService: dataService, fullUrl: nil)
+        let presenter = SongsPresenter(view: view, networkService: networkService,
+                                       url: url, dataService: dataService, fullUrl: nil)
         view.presenter = presenter
         return view
     }
-    
 }
