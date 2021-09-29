@@ -36,7 +36,7 @@ final class ModuleBuilder: Builder {
         let networkService = NetworkService()
         let dataService = DataService()
         let presenter = SongsPresenter(view: view, networkService: networkService,
-                                       url: url, dataService: dataService, fullUrl: nil)
+                                       url: url, dataService: dataService)
         view.presenter = presenter
         return view
     }

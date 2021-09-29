@@ -87,7 +87,12 @@ extension SearchViewController: SearchViewProtocol {
         alertController.addAction(UIAlertAction(title: "Close", style: .cancel))
         alertController.addAction(UIAlertAction(title: "Reload", style: .default, handler: { [weak self] _ in
             guard let self = self else { return }
-            self.presenter.getAlbums(url: Url.album, searchTerm: self.presenter.searchTerm)
+            guard let presenter = self.presenter else { return }
+
+            let searchTerm = presenter.searchTerm ?? ""
+            let url = self.presenter.resultUrl ?? (Url.album + searchTerm)
+
+            self.presenter.getAlbums(url: url, searchTerm: "")
         }))
         present(alertController, animated: true)
     }

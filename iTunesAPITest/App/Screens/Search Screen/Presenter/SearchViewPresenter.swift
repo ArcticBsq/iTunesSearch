@@ -22,11 +22,17 @@ protocol SearchViewPresenterProtocol: AnyObject {
     var history: [String]? { get set }
     func getUrlFromDefaults() -> String?
     func saveUrlNilDefaults()
-
+    var resultUrl: String? { get set }
 }
 
 final class SearchPresenter: SearchViewPresenterProtocol {
     var searchTerm: String?
+
+    var resultUrl: String? {
+        didSet {
+            print(resultUrl)
+        }
+    }
 
     var albums: MusicEntities?
 // MARK: History data work
@@ -59,6 +65,9 @@ final class SearchPresenter: SearchViewPresenterProtocol {
         networkService.fetchData(url: url, searchTerm: term) { [weak self] result, error, historyUrl in
             guard let self = self else { return }
             self.saveHistory(url: historyUrl)
+
+            self.resultUrl = "\(url)\(searchTerm ?? "")"
+
             DispatchQueue.main.async {
                 if let result = result {
                     if !result.isEmpty && result.count > 0 {

@@ -64,8 +64,13 @@ extension SongsViewController: SongsViewProtocol {
         alertController.addAction(UIAlertAction(title: "Close", style: .cancel))
         alertController.addAction(UIAlertAction(title: "Reload", style: .default, handler: { [weak self] _ in
             guard let self = self else { return }
-            guard let url = self.presenter.url else { return }
-            self.presenter.getSongs(url: Url.song, term: url)
+
+            guard let presenter = self.presenter else { return }
+
+            let searchTerm = presenter.url ?? ""
+            let url = self.presenter.resultUrl ?? (Url.song + searchTerm)
+
+            self.presenter.getSongs(url: url, term: searchTerm)
         }))
         present(alertController, animated: true)
     }

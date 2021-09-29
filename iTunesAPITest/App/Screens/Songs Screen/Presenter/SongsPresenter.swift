@@ -14,24 +14,25 @@ protocol SongsViewProtocol: AnyObject {
 
 protocol SongsPresenterProtocol: AnyObject {
     init(view: SongsViewProtocol, networkService: NetworkServiceProtocol,
-         url: String?, dataService: DataServiceProtocol, fullUrl: String?)
+         url: String?, dataService: DataServiceProtocol)
 
     func getSongs(url: String, term: String)
     var songs: MusicEntities? { get set }
     var url: String? { get set }
     var album: MusicEntity? { get set }
-    var fullUrl: String? { get set }
 
     func getUrlFromDefaults() -> String?
     func saveUrlNilDefaults()
 
     var albumSong: MusicEntity? { get set }
+
+    var resultUrl: String? { get set }
 }
 
 final class SongsPresenter: SongsPresenterProtocol {
     var url: String?
 
-    var fullUrl: String?
+    var resultUrl: String?
 
     var album: MusicEntity?
 
@@ -54,13 +55,13 @@ final class SongsPresenter: SongsPresenterProtocol {
     var dataService: DataServiceProtocol
 
     init(view: SongsViewProtocol, networkService: NetworkServiceProtocol,
-         url: String?, dataService: DataServiceProtocol, fullUrl: String?) {
+         url: String?, dataService: DataServiceProtocol) {
 
         self.view = view
         self.networkService = networkService
         self.dataService = dataService
         self.url = url
-        self.fullUrl = fullUrl
+
         if let valueUrl = self.url {
             self.getSongs(url: Url.song, term: valueUrl)
         }
@@ -70,6 +71,9 @@ final class SongsPresenter: SongsPresenterProtocol {
     func getSongs(url: String, term: String) {
         networkService.fetchData(url: url, searchTerm: term) { [weak self] result, error, historyUrl in
             guard let self = self else { return }
+
+            self.resultUrl = url + term
+
             self.saveHistory(url: historyUrl)
             DispatchQueue.main.async {
                 if let result = result {
