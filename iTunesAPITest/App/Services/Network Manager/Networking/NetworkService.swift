@@ -20,7 +20,7 @@ protocol NetworkServiceProtocol {
 final class NetworkService: NetworkServiceProtocol {
 
     func createDataTask(from request: URLRequest,
-                                 completion: @escaping (Data?, Error?) -> Void) -> URLSessionDataTask {
+                        completion: @escaping (Data?, Error?) -> Void) -> URLSessionDataTask {
 
         return URLSession.shared.dataTask(with: request) { (data, _, error) in
             DispatchQueue.main.async {

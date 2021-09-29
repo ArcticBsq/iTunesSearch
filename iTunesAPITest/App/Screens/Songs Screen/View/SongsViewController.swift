@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SongsViewController: UIViewController {
+final class SongsViewController: UIViewController {
 // MARK: Outlets
     @IBOutlet weak var albumImageView: UIImageView!
 

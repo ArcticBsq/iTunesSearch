@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SearchViewController: UIViewController {
+final class SearchViewController: UIViewController {
 
     var presenter: SearchViewPresenterProtocol!
 
@@ -31,7 +31,6 @@ class SearchViewController: UIViewController {
         navigationItem.searchController = searchController
         definesPresentationContext = true
         searchController.hidesNavigationBarDuringPresentation = false
-        searchController.automaticallyShowsCancelButton = false
     }
 
     private var timer: Timer?
@@ -60,6 +59,21 @@ class SearchViewController: UIViewController {
 // MARK: Extensions
 // Presenter response
 extension SearchViewController: SearchViewProtocol {
+    func emptySuccess() {
+        let alertController = UIAlertController(title: "Oops",
+                                                message: "Requst sent zero albums, try to make request more accurately.",
+                                                preferredStyle: .alert)
+
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak self] _ in
+            guard let self = self else { return }
+
+            let badRequestTerm = self.searchController.searchBar.text ?? ""
+            self.searchController.searchBar.text = nil
+            self.searchController.searchBar.placeholder = "Previous - \(badRequestTerm)"
+        }))
+        present(alertController, animated: true)
+    }
+
     func success() {
         self.scrollToTop()
         self.collectionView.reloadData()
@@ -104,8 +118,9 @@ extension SearchViewController: UISearchBarDelegate {
 }
 
 // MARK: Hide keyboard
+// TODO: Broken, needs fix
 extension SearchViewController {
-    open override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.window?.endEditing(true)
         super.touchesEnded(touches, with: event)
     }

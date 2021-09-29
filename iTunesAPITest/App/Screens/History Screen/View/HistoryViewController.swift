@@ -7,7 +7,7 @@
 
 import UIKit
 
-class HistoryViewController: UIViewController {
+final class HistoryViewController: UIViewController {
 
     @IBOutlet weak var historyTableView: UITableView!
     var presenter: HistoryViewPresenterProtocol!

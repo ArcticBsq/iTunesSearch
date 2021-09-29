@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CustomCollectionCell: UICollectionViewCell {
+final class CustomCollectionCell: UICollectionViewCell {
 
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!

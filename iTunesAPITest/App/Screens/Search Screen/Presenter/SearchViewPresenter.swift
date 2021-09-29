@@ -9,6 +9,7 @@ import Foundation
 
 protocol SearchViewProtocol: AnyObject {
     func success()
+    func emptySuccess()
     func failure(error: Error)
 }
 
@@ -60,9 +61,12 @@ final class SearchPresenter: SearchViewPresenterProtocol {
             self.saveHistory(url: historyUrl)
             DispatchQueue.main.async {
                 if let result = result {
-                    if !result.isEmpty {
+                    if !result.isEmpty && result.count > 0 {
                         self.albums = result.sorted {$0.collectionName < $1.collectionName}
                         self.view?.success()
+                    } else {
+                        self.albums = result
+                        self.view?.emptySuccess()
                     }
                 } else {
                     guard let error = error else { return }
